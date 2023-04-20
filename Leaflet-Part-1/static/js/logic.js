@@ -12,4 +12,7 @@ let myMap = L.map("map", {
 // Then we add our 'basemap' tile layer to the map.
 basemap.addTo(map);
 
-
+// retrieve earthquake data
+d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson").then(function (data) {
+  
+})
