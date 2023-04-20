@@ -1,3 +1,6 @@
+// retrieve earthquake data
+url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+
 // Create the tile layer that will be the background of our map.
 let streetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -12,7 +15,9 @@ let myMap = L.map("map", {
 // Then we add our 'basemap' tile layer to the map.
 basemap.addTo(map);
 
-// retrieve earthquake data
-d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson").then(function (data) {
-  
-})
+// Perform a request to get the query URL
+d3.json(url).then(function(data) {
+  createFeatures(data.features);
+});
+
+function createFeatures()
