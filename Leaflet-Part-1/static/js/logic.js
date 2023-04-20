@@ -9,3 +9,7 @@ let myMap = L.map("map", {
     zoom: 11
   });
   
+// Then we add our 'basemap' tile layer to the map.
+basemap.addTo(map);
+
+
