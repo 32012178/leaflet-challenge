@@ -32,7 +32,7 @@ let overlayMaps = {
 // Add a control to the map so the user can change the layers they look at
 L.control.layers(baseMaps, overlayMaps).addTo(myMap);
 
-// Set the style data for each earthquake included on the map. Color is being set based on depth, and radius based on magnitude
+//  Color and radius based on magnitude
 function styleInfo(feature) {
   return {
     fillOpacity: 1,
@@ -65,16 +65,16 @@ function getColour(depth) {
   return "#F29455";
   }
   else {
-  return "#FF51EB"  // I added this just in case there were any with a depth lower than -10
+  return "#FF51EB"  
   }
 };
 
-// This function sets the radius of the earthquake circle marker based on its magnitude
+// radius of the earthquake circle on its magnitude
 function getRadius(mag) {
   return mag * 5;  
 };
 
-// Grab the geoJson data from the url (stored in the config.js file)
+// Grab the geoJson data from the url 
 d3.json(queryUrl).then(function(data) {
 // Create a geoJson layer with the data
   L.geoJson(data, {
