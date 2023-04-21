@@ -67,11 +67,48 @@ function getColour(depth) {
   }
 };
 
-// Perform a request to get the query URL
-d3.json(url).then(function(data) {
-  createFeatures(data.features);
-});
+// This function sets the radius of the earthquake circle marker based on its magnitude
+function getRadius(mag) {
+  return mag * 5;  
+};
 
-function createFeatures(earthquakeData, platesData) {
+// Grab the geoJson data from the url (stored in the config.js file)
+d3.json(queryUrl).then(function(data) {
+  // Create a geoJson layer with the data
+      L.geoJson(data, {
+          // Turn the data into a circle marker on the map
+          pointToLayer: function(features, latlng) {
+          return L.circleMarker(latlng);
+          },
+          // Set the style for each circle marker
+          style: styleInfo,
+          onEachFeature: function(features, layer) {
+              layer.bindPopup(`<h3>${features.properties.place}</h3><hr>
+              <p><strong>Coordinates:</strong> ${features.geometry.coordinates[1]}, ${features.geometry.coordinates[0]} 
+              <br><strong>Magnitude:</strong> ${featurs.properties.mag} 
+              <br><strong>Depth:</strong> ${features.geometry.coordinates[2]}
+              <br>${new Date(features.properties.time)}</p>`);
+            }
+          }).addTo(earthquake);
+    
+      // Add the earthquake layer to the map
+      earthquake.addTo(myMap);
+    });
 
-}
+let legend = L.control({position: 'bottomright'});
+
+// create components of the legend
+legend.onAdd = function (map) {
+let div = L.DomUtil.create('div', 'legend');
+  div.innerHTML += '<i style="background: #F29455"></i><span>-10-10</span><br>';  
+  div.innerHTML += '<i style="background: #D18779"></i><span>10-30</span><br>';
+  div.innerHTML += '<i style="background: #A96A77"></i><span>30-50</span><br>';
+  div.innerHTML += '<i style="background: #804E74"></i><span>50-70</span><br>';
+  div.innerHTML += '<i style="background: #573172"></i><span>70-90</span><br>';
+  div.innerHTML += '<i style="background: #19073B"></i><span>90+</span><br>';
+  return div;
+};
+
+// Add legend to the map
+legend.addTo(myMap);
+
